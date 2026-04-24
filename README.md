@@ -11,7 +11,7 @@ Brink 是一个面向 macOS 的、`local-first` 的 deadline 可视化桌面工�
 
 **让最危险、最接近截止时间的任务，持续停留在用户视线里。**
 
-Brink 通过桌面常驻列表、颜色风险映射、最紧急任务环形视图、通知与轻量输入入口，把“离截止还有多久”压缩成一眼可读的信息。
+Brink 通过桌面常驻列表、蓝色到红色的风险映射、绿色依赖完成指示、按尺寸切换的组件视图、通知与轻量输入入口，把“离截止还有多久”压缩成一眼可读的信息。
 
 ### 为什么做这个项目
 
@@ -44,7 +44,8 @@ Brink 不是：
 
 - 看到按风险排序的任务清单，而非普通待办列表
 - 在展开树形结构时保留父子关系，不牺牲项目上下文
-- 在紧凑模式下聚焦“当前最危险任务”而不是平均风险
+- 在 `1x1` 紧凑模式下聚焦“当前最危险任务”而不是平均风险
+- 在 `2x1` 与 `2x2+` 组件尺寸下按最紧急内容排序展示 deadline 信息
 - 在通知、Widget 和桌面视图之间获得一致的 deadline 语义
 
 ### MVP 范围
@@ -55,7 +56,9 @@ Brink 不是：
 - 父子任务层级
 - `effectiveDue` 驱动的风险排序
 - 桌面主视图：横向风险条列表
-- 紧凑视图：单任务环形风险指示
+- `1x1` 紧凑视图：单任务倒计时环形指示
+- `2x1` 组件：仅显示当前可容纳的最紧急任务
+- `2x2+` 组件：可滚动浏览全部 deadline 信息
 - 本地通知
 - 菜单栏入口
 - `JSON/CSV` 导入导出
@@ -69,16 +72,84 @@ Brink 不是：
 - iOS 客户端
 - 复杂日历调度与时间块规划
 
+### 当前实现状态
+
+当前仓库已经不再是纯文档阶段，而是包含一个可本机构建与实验的 `macOS SwiftUI` 原型。
+
+当前已完成：
+
+- `Brink.xcodeproj` 工程与 `xcodegen` 配置
+- 主窗口 + 菜单栏入口
+- 本地任务 `CRUD`
+- 父子任务层级
+- `effectiveDue` 风险排序
+- 本地 JSON 持久化
+- `JSON/CSV` 导入导出
+- 本地通知调度入口
+
+已在本机完成的实际验证：
+
+- App 启动
+- 新建根任务
+- 新建子任务
+- 删除子任务
+- 编辑标题并落盘
+- 导出 `JSON`
+- 再导入 `JSON`
+
+当前仍在迭代中的部分：
+
+- 可折叠树形视图
+- 更稳健的通知策略
+- Widget 实装
+- `SQLite + GRDB` 持久化替换
+- Apple Reminders 集成
+
+### 本地开发
+
+环境准备：
+
+```bash
+./scripts/setup-macos-dev.sh
+```
+
+生成工程：
+
+```bash
+./scripts/generate-xcodeproj.sh
+```
+
+命令行构建：
+
+```bash
+xcodebuild -project Brink.xcodeproj -scheme Brink -configuration Debug -destination 'platform=macOS,arch=arm64' build
+```
+
+主要入口：
+
+- `Brink.xcodeproj`
+- `project.yml`
+- `Sources/BrinkApp`
+- `Resources`
+
+本地数据位置：
+
+- `~/Library/Application Support/Brink/tasks.json`
+
 ### 文档导航
 
-- [README.md](D:/1-code/apple/README.md): 项目门面与总体说明
-- [ROADMAP.md](D:/1-code/apple/ROADMAP.md): 阶段路线、里程碑与版本节奏
-- [ARCHITECTURE.md](D:/1-code/apple/ARCHITECTURE.md): 技术架构、模块与数据模型
-- [PRD.md](D:/1-code/apple/PRD.md): 产品需求、用户场景与验收标准
+- [README.md](README.md): 项目门面、实现状态与使用说明
+- [ROADMAP.md](ROADMAP.md): 阶段路线、里程碑与版本节奏
+- [ARCHITECTURE.md](ARCHITECTURE.md): 技术架构、模块与数据模型
+- [PRD.md](PRD.md): 产品需求、用户场景与验收标准
+- [docs/product/risk-model.md](docs/product/risk-model.md): 风险等级、排序与尺寸规则
+- [docs/design/visual-semantics.md](docs/design/visual-semantics.md): 颜色语义与组件视觉规则
+- [docs/design/lofi-wireframes.md](docs/design/lofi-wireframes.md): 主视图、组件与编辑面板草图
+- [docs/macos-dev-environment.md](docs/macos-dev-environment.md): macOS 开发环境搭建
 
-### 建议目录结构
+### 当前目录结构
 
-当前阶段采用“文档先行，不建立代码骨架”的组织方式：
+当前仓库已经包含可运行的 macOS 原型：
 
 ```text
 Brink/
@@ -86,6 +157,11 @@ Brink/
 - ROADMAP.md
 - ARCHITECTURE.md
 - PRD.md
+- Brink.xcodeproj
+- project.yml
+- Sources/
+- Resources/
+- scripts/
 - docs/
   - research/
   - product/
@@ -123,10 +199,10 @@ Brink 计划采用：
 
 ### 推荐启动顺序
 
-1. 完成并冻结 v0 文档基线
-2. 先验证信息架构和风险语义
-3. 再搭建 macOS App + Widget 最小骨架
-4. 最后接入导入导出、通知与 Reminders 能力
+1. 使用 [docs/macos-dev-environment.md](docs/macos-dev-environment.md) 完成环境准备
+2. 运行 `./scripts/generate-xcodeproj.sh`
+3. 打开 `Brink.xcodeproj`
+4. 先验证任务录入、排序、导出导入和通知权限
 
 ---
 
@@ -139,7 +215,7 @@ It is not trying to be another full-featured task manager. Instead, it focuses o
 
 **keeping the most dangerous, nearest-deadline task visible at all times.**
 
-Brink turns deadline pressure into glanceable signals through a persistent desktop list, urgency color mapping, a compact circular focus view, notifications, and lightweight entry points.
+Brink turns deadline pressure into glanceable signals through a persistent desktop list, blue-to-red urgency mapping, green linked-completion markers, size-adaptive widget views, notifications, and lightweight entry points.
 
 ### Why This Exists
 
@@ -172,7 +248,8 @@ When a user opens Brink, they should immediately be able to:
 
 - see tasks ordered by urgency and risk, not by generic list order
 - preserve project hierarchy while still surfacing urgent work
-- focus on the single riskiest item in compact mode
+- focus on the single riskiest item in `1x1` compact mode
+- adapt `2x1` and `2x2+` surfaces to show urgency-sorted deadline information
 - carry the same deadline semantics across desktop, widget, and notification surfaces
 
 ### MVP Scope
@@ -183,7 +260,9 @@ The first release focuses on the smallest usable loop:
 - parent-child task hierarchy
 - `effectiveDue` based ordering
 - desktop primary view with horizontal risk bars
-- compact view with a single circular urgency indicator
+- `1x1` compact view with a single circular countdown indicator
+- `2x1` widget mode with the most urgent items that fit
+- `2x2+` widget mode with a scrollable urgency list
 - local notifications
 - menu bar entry
 - `JSON/CSV` import and export
@@ -197,16 +276,84 @@ Explicitly out of scope for MVP:
 - iOS app
 - advanced calendar planning and time blocking
 
+### Current Implementation Status
+
+The repository now includes a locally buildable `macOS SwiftUI` prototype instead of documents only.
+
+Implemented today:
+
+- `Brink.xcodeproj` app project and `xcodegen` config
+- primary window and menu bar entry
+- local task `CRUD`
+- parent-child task hierarchy
+- `effectiveDue` ordering
+- local JSON persistence
+- `JSON/CSV` import and export
+- local notification scheduling entry points
+
+Validated locally:
+
+- app launch
+- create root task
+- create child task
+- delete child task
+- edit task title and persist it
+- export `JSON`
+- import the exported `JSON`
+
+Still in progress:
+
+- collapsible tree UI
+- more robust notification policy
+- Widget implementation
+- migration from JSON storage to `SQLite + GRDB`
+- Apple Reminders integration
+
+### Local Development
+
+Prepare the machine:
+
+```bash
+./scripts/setup-macos-dev.sh
+```
+
+Generate the Xcode project:
+
+```bash
+./scripts/generate-xcodeproj.sh
+```
+
+Build from the command line:
+
+```bash
+xcodebuild -project Brink.xcodeproj -scheme Brink -configuration Debug -destination 'platform=macOS,arch=arm64' build
+```
+
+Main entry points:
+
+- `Brink.xcodeproj`
+- `project.yml`
+- `Sources/BrinkApp`
+- `Resources`
+
+Local data path:
+
+- `~/Library/Application Support/Brink/tasks.json`
+
 ### Docs
 
-- [README.md](D:/1-code/apple/README.md): project front page and summary
-- [ROADMAP.md](D:/1-code/apple/ROADMAP.md): phases, milestones, and release path
-- [ARCHITECTURE.md](D:/1-code/apple/ARCHITECTURE.md): system architecture and technical decisions
-- [PRD.md](D:/1-code/apple/PRD.md): product requirements, scenarios, and acceptance criteria
+- [README.md](README.md): project front page, implementation status, and usage notes
+- [ROADMAP.md](ROADMAP.md): phases, milestones, and release path
+- [ARCHITECTURE.md](ARCHITECTURE.md): system architecture and technical decisions
+- [PRD.md](PRD.md): product requirements, scenarios, and acceptance criteria
+- [docs/product/risk-model.md](docs/product/risk-model.md): risk levels, ordering, and size rules
+- [docs/design/visual-semantics.md](docs/design/visual-semantics.md): color semantics and component behavior
+- [docs/design/lofi-wireframes.md](docs/design/lofi-wireframes.md): lo-fi layouts for main and compact surfaces
+- [docs/macos-dev-environment.md](docs/macos-dev-environment.md): local macOS development setup
 
-### Suggested Directory Structure
+### Current Directory Structure
 
-At this stage, the repo stays document-first with no code scaffold yet:
+The repository now includes a runnable macOS prototype:
 
 ```text
 Brink/
@@ -214,6 +361,11 @@ Brink/
 - ROADMAP.md
 - ARCHITECTURE.md
 - PRD.md
+- Brink.xcodeproj
+- project.yml
+- Sources/
+- Resources/
+- scripts/
 - docs/
   - research/
   - product/
