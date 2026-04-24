@@ -49,6 +49,8 @@ Brink 帮用户解决的不是“怎么记录更多任务”，而是：
 
 - 自动展示最紧急任务
 - 用颜色与剩余时间提示风险程度
+- 以蓝色表示安全、绿色表示依赖完成
+- 对无 deadline 项使用留白而非灰色风险条
 - 不要求用户先进入复杂项目视图
 
 #### 场景 B：多层级项目管理
@@ -59,6 +61,7 @@ Brink 帮用户解决的不是“怎么记录更多任务”，而是：
 
 - 保留树形层级
 - 允许父任务继承最早子任务风险
+- 已完成但仍被依赖的任务继续保留显示，作为绿色完成指示
 - 提供紧急优先与严格树形两种模式
 
 #### 场景 C：临近到期提醒
@@ -91,7 +94,9 @@ Brink 帮用户解决的不是“怎么记录更多任务”，而是：
 - 支持折叠/展开层级
 - 支持按 `effectiveDue` 排序
 - 主视图横向风险条显示
-- 紧凑模式单任务环形显示
+- `1x1` 紧凑模式单任务倒计时环形显示
+- `2x1` 组件显示当前可容纳的最紧急任务
+- `2x2+` 组件支持滚动查看全部 deadline 信息
 - 菜单栏入口
 - 本地通知
 - 本地持久化
@@ -125,12 +130,18 @@ Brink 帮用户解决的不是“怎么记录更多任务”，而是：
 - 长条不是完成百分比
 - 长条用于相对比较
 - 颜色用于表达风险等级
+- 蓝色表示安全
+- 绿色表示已完成但仍相关的依赖内容
+- 无 deadline 使用留空，不使用灰色风险填充
 - 文本显示具体剩余时间
 
 #### 紧凑模式规则
 
-- 只显示单一最危险任务
+- `1x1` 只显示单一最危险任务
 - 不显示多个任务平均值
+- 圆环表达倒计时而非完成度
+- `2x1` 只显示按紧急程度排序且当前尺寸能容纳的内容
+- `2x2+` 允许鼠标滚动查看全部 deadline 信息
 - 保持与主视图相同的颜色逻辑
 
 ### 8. 非功能需求
@@ -162,14 +173,30 @@ Brink 帮用户解决的不是“怎么记录更多任务”，而是：
 - 用户可在首次使用 5 分钟内创建或导入任务
 - 系统能稳定计算并显示最危险任务
 - 树形结构与风险排序不会互相破坏
+- 已完成依赖任务不会错误消失
+- 不同组件尺寸下都能保持一致排序语义
 - 菜单栏和主视图均可快速访问关键信息
 - 断网状态下核心流程可用
+
+当前已完成验证：
+
+- 可创建根任务与子任务
+- 可删除任务并立即持久化
+- 可编辑任务标题并落盘
+- 可导出 `JSON`
+- 可重新导入导出的 `JSON`
+
+当前待补强验证：
+
+- `CSV` 导入导出完整回归
+- 通知提醒策略的交互与节流
+- 更完善的树形展开折叠体验
 
 ### 12. 开放问题
 
 - 风险阈值应固定还是允许用户自定义
 - Apple Reminders 初期应采用一次性导入还是受控同步
-- 紧凑模式是否需要支持多个尺寸等级
+- 绿色依赖完成指示是否需要更明确的关联关系文案
 - 是否需要在 MVP 中引入 start date 参与风险计算
 
 ---
@@ -215,6 +242,8 @@ The user returns to their Mac and wants to know the single riskiest task within 
 
 The user needs parent-child task structure without losing the earliest deadline signal.
 
+The system should also preserve completed-but-still-relevant dependency items as visible green indicators when they matter to unfinished work.
+
 #### Scenario C: Escalation reminders
 
 The user wants reminders when risk materially increases, not constant interruptions.
@@ -233,7 +262,9 @@ The user wants to import tasks from Apple Reminders or structured files and star
 - collapse and expand hierarchy
 - `effectiveDue` ordering
 - horizontal risk-bar primary view
-- single-task circular compact mode
+- `1x1` single-task circular countdown mode
+- `2x1` compact list mode for the most urgent items that fit
+- `2x2+` scrollable deadline list mode
 - menu bar entry
 - local notifications
 - local persistence
@@ -267,12 +298,18 @@ The user wants to import tasks from Apple Reminders or structured files and star
 - bars do not represent completion percentage
 - bar length supports comparison
 - color communicates urgency
+- blue means safe
+- green means completed but still relevant linked work
+- no-due items use empty space instead of gray fill
 - text communicates exact remaining time
 
 #### Compact Mode
 
-- show the single riskiest task only
+- in `1x1`, show the single riskiest task only
 - do not average multiple tasks
+- the ring represents countdown rather than completion
+- in `2x1`, show only the urgency-sorted items that fit
+- in `2x2+`, allow scrolling through all deadline items
 - use the same color logic as the primary view
 
 ### 8. Non-Functional Requirements
@@ -304,6 +341,8 @@ Early success should be product-signal driven rather than download driven:
 - a new user can create or import tasks within five minutes
 - the system reliably computes and displays the riskiest task
 - hierarchy and urgency ordering coexist without breaking each other
+- linked completed tasks remain visible when they matter to unfinished work
+- size changes do not break urgency semantics
 - key information is accessible from both desktop and menu bar surfaces
 - the core workflow works offline
 
@@ -311,5 +350,5 @@ Early success should be product-signal driven rather than download driven:
 
 - should urgency thresholds be fixed or user-configurable
 - should Apple Reminders start as one-time import or controlled sync
-- should compact mode support multiple size classes in MVP
+- does the green linked-completion state need stronger explanatory copy
 - should `startDate` influence urgency in MVP

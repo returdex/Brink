@@ -28,6 +28,26 @@ Brink 的技术架构应服务于三个核心原则：
 - 主要原因是 Widget、系统通知、Sandbox 适配和原生 macOS 体验要求较高
 - Brink 的差异化来自系统级存在感，而不是跨端代码复用率
 
+### 当前实现快照
+
+当前原型实现采用：
+
+- `SwiftUI` 作为主界面框架
+- `xcodegen + Xcode project` 维护工程配置
+- 本地 `JSON` 文件持久化到 `Application Support`
+- `UserNotifications` 用于本地提醒调度入口
+
+当前代码位置：
+
+- `Sources/BrinkApp`
+- `Resources`
+- `project.yml`
+
+说明：
+
+- 文档里提到的 `SQLite + GRDB` 仍然是推荐的下一步演进方向
+- 当前 `JSON` 存储用于加速 MVP 原型验证和本机实验
+
 ### 顶层模块
 
 #### 1. App Shell
@@ -57,13 +77,19 @@ Brink 的技术架构应服务于三个核心原则：
 - 导入导出
 - 数据迁移
 
+当前实现：
+
+- 使用 `tasks.json` 保存任务树
+- 已支持 `JSON/CSV` 导入导出
+- 尚未切换到 `SQLite + GRDB`
+
 #### 4. Urgency Engine
 
 职责：
 
 - 将截止时间映射为风险等级
 - 生成颜色语义
-- 生成主视图条长和紧凑视图环形数据
+- 生成主视图条长、`1x1` 倒计时环形数据和多尺寸组件展示模型
 - 为通知触发提供判断依据
 
 #### 5. Presentation Layer
@@ -102,6 +128,7 @@ Task
 - status: TaskStatus
 - isCollapsed: Bool
 - manualColor: String?
+- linkedTaskIDs: [UUID]?
 - source: TaskSource
 - createdAt: Date
 - updatedAt: Date
@@ -117,6 +144,7 @@ effectiveDue = min(self.dueDate, descendants.dueDate)
 
 - 父任务排序不只看自身截止时间，也要看未完成后代任务中的最早截止时间
 - 这让树形结构与风险优先排序可以同时成立
+- 已完成但仍被其他任务引用的任务需要额外保留可见状态
 
 ### 排序策略
 
@@ -139,10 +167,18 @@ Brink 不应把主条形图定义为“完成百分比”，而应定义为“�
 
 建议风险分层：
 
-- Green: 安全
+- Blue: 安全
 - Yellow: 需要关注
 - Orange: 接近风险
 - Red: 高风险 / 逾期
+- Green: 已完成但仍关联的依赖内容
+- Empty: 无 deadline，不绘制风险填充
+
+组件尺寸语义建议：
+
+- `1x1`: 单任务倒计时环
+- `2x1`: 不滚动的最紧急任务短列表
+- `2x2+`: 可滚动的完整 deadline 列表
 
 ### Widget 与主 App 的关系
 
@@ -152,6 +188,7 @@ Brink 不应把主条形图定义为“完成百分比”，而应定义为“�
 - `effectiveDue`
 - 任务状态
 - 颜色等级
+- 组件尺寸对应的展示模式
 
 建议方式：
 
@@ -251,7 +288,7 @@ Notes:
 
 - map due dates to urgency levels
 - produce color semantics
-- feed primary bars and compact circular views
+- feed primary bars, `1x1` countdown rings, and larger size-class list presentations
 - support notification triggers
 
 #### 5. Presentation Layer
@@ -317,6 +354,21 @@ Recommended mapping:
 - color for urgency
 - text for exact time remaining
 
+Recommended color semantics:
+
+- Blue: safe
+- Yellow: watch
+- Orange: warning
+- Red: critical or overdue
+- Green: completed but still relevant linked dependency
+- Empty: no due date, no risk fill
+
+Recommended size behavior:
+
+- `1x1`: one riskiest task with a countdown ring
+- `2x1`: a non-scrollable urgency list of the items that fit
+- `2x2+`: a scrollable deadline list that preserves urgency ordering
+
 ### Widget Relationship
 
 Suggested approach:
@@ -324,6 +376,7 @@ Suggested approach:
 - the main app is the single write authority
 - the widget reads trimmed shared snapshots
 - the widget should not be responsible for complex writes
+- the widget should switch presentation by size class without changing urgency ordering
 
 ### Notification Strategy
 
