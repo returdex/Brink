@@ -86,6 +86,7 @@ Brink 不是：
 - 本地 JSON 持久化
 - `JSON/CSV` 导入导出
 - 本地通知调度入口
+- 英文与简体中文界面文案
 
 已在本机完成的实际验证：
 
@@ -131,6 +132,12 @@ xcodebuild -project Brink.xcodeproj -scheme Brink -configuration Debug -destinat
 - `project.yml`
 - `Sources/BrinkApp`
 - `Resources`
+
+本地化资源：
+
+- `Resources/en.lproj/Localizable.strings`
+- `Resources/zh-Hans.lproj/Localizable.strings`
+- `Sources/BrinkApp/Localization.swift`
 
 本地数据位置：
 
@@ -290,6 +297,7 @@ Implemented today:
 - local JSON persistence
 - `JSON/CSV` import and export
 - local notification scheduling entry points
+- English and Simplified Chinese UI copy
 
 Validated locally:
 
@@ -335,6 +343,12 @@ Main entry points:
 - `project.yml`
 - `Sources/BrinkApp`
 - `Resources`
+
+Localization resources:
+
+- `Resources/en.lproj/Localizable.strings`
+- `Resources/zh-Hans.lproj/Localizable.strings`
+- `Sources/BrinkApp/Localization.swift`
 
 Local data path:
 

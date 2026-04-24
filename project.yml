@@ -25,7 +25,6 @@ targets:
     platform: macOS
     sources:
       - path: Sources/BrinkApp
-    resources:
       - path: Resources
     settings:
       base:
