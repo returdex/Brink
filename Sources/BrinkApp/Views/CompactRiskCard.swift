@@ -53,7 +53,7 @@ struct CompactRiskCard: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .stroke(Color.black.opacity(0.06), lineWidth: 1)
+                .stroke(BrinkTheme.separator.opacity(0.7), lineWidth: 1)
         )
     }
 }
