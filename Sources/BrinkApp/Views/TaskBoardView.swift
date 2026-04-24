@@ -39,6 +39,7 @@ struct TaskSummaryRow: View {
     let now: Date
     let isSelected: Bool
     let onSelect: (UUID) -> Void
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         let snapshot = UrgencyEngine.snapshot(for: task, now: now)
@@ -70,7 +71,7 @@ struct TaskSummaryRow: View {
                 GeometryReader { proxy in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color.black.opacity(0.06))
+                            .fill(BrinkTheme.progressTrack(for: colorScheme))
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                             .fill(snapshot.level.tint)
                             .frame(width: proxy.size.width * snapshot.ratio)
@@ -100,12 +101,12 @@ struct TaskSummaryRow: View {
         }
         .buttonStyle(.plain)
         .padding(18)
-        .background(isSelected ? Color.accentColor.opacity(0.12) : .white.opacity(0.85))
+        .background(BrinkTheme.cardBackground(isSelected: isSelected))
         .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .stroke(isSelected ? Color.accentColor.opacity(0.35) : Color.black.opacity(0.05), lineWidth: 1)
+                .stroke(BrinkTheme.cardBorder(isSelected: isSelected), lineWidth: 1)
         )
-        .shadow(color: .black.opacity(0.04), radius: 18, y: 8)
+        .shadow(color: BrinkTheme.shadow.opacity(colorScheme == .dark ? 0.45 : 0.18), radius: 18, y: 8)
     }
 }

@@ -80,6 +80,18 @@ MVP 不建议依赖过多图标。图标只在以下情况使用：
 
 危险程度不要用额外图标堆叠，以免和颜色语义冲突。
 
+#### 5. 外观模式适配
+
+Brink 必须同时适配浅色与深色模式，且风险语义在两种模式下保持一致。
+
+要求：
+
+- 风险色阶本身不因外观模式改变语义，只允许微调承载它们的背景和描边
+- 面板、卡片、编辑区和列表容器应优先使用系统语义背景色，而不是写死白色或黑色透明值
+- 进度条底轨、卡片描边和阴影需要根据外观模式调整对比度，避免深色模式下发灰或脏污
+- 选中态仍以 accent 或风险色为主，但必须保证正文文本在深色模式下可读
+- 如果使用渐变，深色模式应落在系统背景附近，不能继续沿用浅色高亮渐变
+
 ### 视图级语义
 
 #### 主视图
@@ -253,6 +265,18 @@ none      -> empty / no fill
 ```
 
 Green is reserved for completed items that still matter as linked dependencies. No-due tasks should appear with empty space rather than a gray risk fill.
+
+### Appearance Modes
+
+Brink must preserve the same risk semantics in both light and dark appearance modes.
+
+Requirements:
+
+- risk colors keep their meaning across appearances; only their surrounding surfaces may adapt
+- panels, cards, editors, and list containers should prefer system semantic background colors over hard-coded white or black opacity values
+- progress tracks, borders, and shadows must tune contrast for dark mode so surfaces do not look muddy
+- selected states can still use accent or risk tint, but text contrast must remain readable in dark mode
+- gradients used in the main view should resolve near system background tones in dark mode rather than reusing a light-only highlight wash
 
 ### Main View
 

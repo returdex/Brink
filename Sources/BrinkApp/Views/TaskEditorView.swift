@@ -16,7 +16,7 @@ struct TaskEditorView: View {
             }
         }
         .padding(24)
-        .background(Color.white.opacity(0.7))
+        .background(BrinkTheme.panelSurface.opacity(0.82))
     }
 
     private func editor(for task: TaskItem) -> some View {

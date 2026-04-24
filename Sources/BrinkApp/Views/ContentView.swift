@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @Bindable var store: TaskStore
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showingComposer = false
     @State private var showingImporter = false
     @State private var showingExporter = false
@@ -160,14 +161,7 @@ struct ContentView: View {
             .padding(24)
         }
         .background(
-            LinearGradient(
-                colors: [
-                    Color(red: 0.95, green: 0.97, blue: 0.99),
-                    Color.white,
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            BrinkTheme.detailGradient(for: colorScheme)
         )
     }
 }
