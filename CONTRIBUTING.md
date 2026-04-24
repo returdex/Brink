@@ -6,6 +6,11 @@
 
 欢迎贡献。
 
+当前仓库已经包含英文与简体中文本地化资源。若要新增或修改界面文案，请同步更新：
+
+- `Resources/en.lproj/Localizable.strings`
+- `Resources/zh-Hans.lproj/Localizable.strings`
+
 提交 Issue、建议或 Pull Request，即表示你同意：
 
 - 你的贡献可在本仓库中按 `GNU AGPL-3.0-or-later` 发布
@@ -17,6 +22,11 @@
 ## English
 
 Contributions are welcome.
+
+The repository already includes English and Simplified Chinese localization resources. If you add or change UI copy, please update both:
+
+- `Resources/en.lproj/Localizable.strings`
+- `Resources/zh-Hans.lproj/Localizable.strings`
 
 By submitting an issue, suggestion, or pull request, you agree that:
 
