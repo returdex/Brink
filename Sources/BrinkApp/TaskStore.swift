@@ -274,12 +274,12 @@ final class TaskStore {
             let importedTasks = try TaskTransferCodec.decode(data: data, format: format)
             replaceAllTasks(with: importedTasks)
             activeAlert = AppAlert(
-                title: "Import complete",
-                message: "Loaded \(allTasks.count) tasks from \(url.lastPathComponent)."
+                title: L10n.string("Import complete"),
+                message: L10n.importCompleteMessage(taskCount: allTasks.count, filename: url.lastPathComponent)
             )
         } catch {
             activeAlert = AppAlert(
-                title: "Import failed",
+                title: L10n.string("Import failed"),
                 message: error.localizedDescription
             )
         }
@@ -289,12 +289,12 @@ final class TaskStore {
         switch result {
         case let .success(url):
             activeAlert = AppAlert(
-                title: "Export complete",
-                message: "Saved \(format.rawValue.uppercased()) to \(url.lastPathComponent)."
+                title: L10n.string("Export complete"),
+                message: L10n.exportCompleteMessage(format: format.rawValue.uppercased(), filename: url.lastPathComponent)
             )
         case let .failure(error):
             activeAlert = AppAlert(
-                title: "Export failed",
+                title: L10n.string("Export failed"),
                 message: error.localizedDescription
             )
         }
@@ -343,49 +343,49 @@ final class TaskStore {
         let calendar = Calendar.current
 
         let launchPrep = TaskItem(
-            title: "Launch Brink beta",
+            title: L10n.string("Launch Brink beta"),
             dueDate: calendar.date(byAdding: .day, value: 5, to: now),
             children: [
                 TaskItem(
-                    title: "Polish risk colors",
+                    title: L10n.string("Polish risk colors"),
                     dueDate: calendar.date(byAdding: .day, value: 2, to: now)
                 ),
                 TaskItem(
-                    title: "Record demo video",
+                    title: L10n.string("Record demo video"),
                     dueDate: calendar.date(byAdding: .day, value: 4, to: now)
                 ),
             ]
         )
 
         let importFlow = TaskItem(
-            title: "Import pipeline",
+            title: L10n.string("Import pipeline"),
             dueDate: calendar.date(byAdding: .day, value: 9, to: now),
             children: [
                 TaskItem(
-                    title: "CSV parser",
+                    title: L10n.string("CSV parser"),
                     dueDate: calendar.date(byAdding: .day, value: 6, to: now)
                 ),
                 TaskItem(
-                    title: "Reminders mapping draft",
+                    title: L10n.string("Reminders mapping draft"),
                     dueDate: calendar.date(byAdding: .day, value: 8, to: now)
                 ),
             ]
         )
 
         let menuBar = TaskItem(
-            title: "Menu bar entry",
+            title: L10n.string("Menu bar entry"),
             dueDate: calendar.date(byAdding: .hour, value: 20, to: now)
         )
 
         let dependency = TaskItem(
-            title: "Shared urgency model",
+            title: L10n.string("Shared urgency model"),
             dueDate: calendar.date(byAdding: .day, value: 12, to: now),
             status: .completed
         )
 
         let someday = TaskItem(
-            title: "Investigate Widget syncing",
-            notes: "App Group + GRDB snapshot",
+            title: L10n.string("Investigate Widget syncing"),
+            notes: L10n.string("App Group + GRDB snapshot"),
             dueDate: nil
         )
 

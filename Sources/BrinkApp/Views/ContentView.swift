@@ -85,7 +85,7 @@ struct ContentView: View {
                 }
                 store.importTasks(from: url)
             case let .failure(error):
-                store.activeAlert = AppAlert(title: "Import failed", message: error.localizedDescription)
+                store.activeAlert = AppAlert(title: L10n.string("Import failed"), message: error.localizedDescription)
             }
         }
         .fileExporter(
@@ -122,7 +122,7 @@ struct ContentView: View {
                 MetricRow(title: "Active", value: "\(store.activeCount)", icon: "bolt.fill")
                 MetricRow(title: "Completed", value: "\(store.completedCount)", icon: "checkmark.circle.fill")
                     .foregroundStyle(.secondary)
-                MetricRow(title: "Storage", value: "Local", icon: "externaldrive")
+                MetricRow(title: "Storage", value: L10n.string("Local"), icon: "externaldrive")
                     .foregroundStyle(.secondary)
             }
 
@@ -173,7 +173,7 @@ struct ContentView: View {
 }
 
 private struct MetricRow: View {
-    let title: String
+    let title: LocalizedStringKey
     let value: String
     let icon: String
 

@@ -38,7 +38,7 @@ struct CompactRiskCard: View {
                     .foregroundStyle(snapshot.level.tint)
 
                 if task.incompleteDescendantCount > 0 {
-                    Text("\(task.incompleteDescendantCount) nested tasks still active")
+                    Text(L10n.nestedTasksStillActive(task.incompleteDescendantCount))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
