@@ -81,7 +81,7 @@ final class TaskNotificationScheduler {
             reminders.append((
                 "soon",
                 oneHourBefore,
-                "Due in about an hour. Brink is keeping this task on top."
+                L10n.string("Due in about an hour. Brink is keeping this task on top.")
             ))
         }
 
@@ -89,7 +89,7 @@ final class TaskNotificationScheduler {
             reminders.append((
                 "due",
                 dueDate,
-                "This task has reached its deadline."
+                L10n.string("This task has reached its deadline.")
             ))
         }
 

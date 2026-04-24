@@ -29,17 +29,17 @@ enum UrgencyLevel: String, CaseIterable, Sendable {
     var label: String {
         switch self {
         case .safe:
-            return "Safe"
+            return L10n.string("Safe")
         case .attention:
-            return "Watch"
+            return L10n.string("Watch")
         case .elevated:
-            return "Soon"
+            return L10n.string("Soon")
         case .critical:
-            return "Now"
+            return L10n.string("Now")
         case .complete:
-            return "Done"
+            return L10n.string("Done")
         case .unscheduled:
-            return "No due"
+            return L10n.string("No due")
         }
     }
 }
@@ -53,11 +53,11 @@ struct UrgencySnapshot: Sendable {
 enum UrgencyEngine {
     static func snapshot(for task: TaskItem, now: Date = .now) -> UrgencySnapshot {
         if task.isCompleted {
-            return UrgencySnapshot(level: .complete, ratio: 1.0, subtitle: "Completed")
+            return UrgencySnapshot(level: .complete, ratio: 1.0, subtitle: L10n.string("Completed"))
         }
 
         guard let dueDate = task.effectiveDue else {
-            return UrgencySnapshot(level: .unscheduled, ratio: 0.0, subtitle: "No deadline")
+            return UrgencySnapshot(level: .unscheduled, ratio: 0.0, subtitle: L10n.string("No deadline"))
         }
 
         let remaining = dueDate.timeIntervalSince(now)

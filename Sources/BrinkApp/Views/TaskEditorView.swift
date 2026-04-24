@@ -72,7 +72,7 @@ struct TaskEditorView: View {
 
             Section("Context") {
                 LabeledContent("Effective due") {
-                    Text(task.effectiveDue.map { RelativeDateTimeFormatter().localizedString(for: $0, relativeTo: store.now) } ?? "No deadline")
+                    Text(task.effectiveDue.map { RelativeDateTimeFormatter().localizedString(for: $0, relativeTo: store.now) } ?? L10n.string("No deadline"))
                 }
                 LabeledContent("Nested active tasks") {
                     Text("\(task.incompleteDescendantCount)")
