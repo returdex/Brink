@@ -80,28 +80,45 @@ struct BrinkWidgetProvider: TimelineProvider {
 
 struct BrinkWidgetView: View {
     @Environment(\.widgetFamily) private var family
+    @Environment(\.widgetRenderingMode) private var renderingMode
 
     let entry: BrinkWidgetEntry
 
+    private let widgetCornerRadius: CGFloat = 36
+    private let usesDarkAppearance = true
+
     var body: some View {
         ZStack {
-            widgetBackground
-
             if entry.tasks.isEmpty {
                 emptyState
+            } else if renderingMode == .accented {
+                accentedWidget(limit: family == .systemSmall ? 3 : 7)
             } else {
                 switch family {
                 case .systemSmall:
                     smallWidget
-                case .systemMedium:
-                    boardWidget(limit: 3)
+                case .systemMedium, .systemLarge:
+                    listWidget(limit: 7)
                 default:
-                    boardWidget(limit: 5)
+                    listWidget(limit: 7)
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipShape(RoundedRectangle(cornerRadius: widgetCornerRadius, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: widgetCornerRadius, style: .continuous)
+                .stroke(panelStroke.opacity(usesDarkAppearance ? 0.95 : 1), lineWidth: 1.5)
+        )
         .containerBackground(for: .widget) {
-            Color.clear
+            Group {
+                if renderingMode == .accented {
+                    Color.clear
+                } else {
+                    widgetBackground
+                        .clipShape(RoundedRectangle(cornerRadius: widgetCornerRadius, style: .continuous))
+                }
+            }
         }
         .widgetURL(URL(string: "brink://tasks"))
     }
@@ -110,21 +127,21 @@ struct BrinkWidgetView: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.93, green: 0.96, blue: 0.99),
-                    Color(red: 0.99, green: 0.98, blue: 0.97),
-                    Color.white,
+                    backgroundTop,
+                    backgroundMiddle,
+                    backgroundBottom,
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
 
             Circle()
-                .fill(Color(red: 0.98, green: 0.75, blue: 0.48).opacity(0.16))
+                .fill(Color(red: 0.98, green: 0.75, blue: 0.48).opacity(usesDarkAppearance ? 0.18 : 0.16))
                 .frame(width: 180, height: 180)
                 .offset(x: 120, y: -120)
 
             Circle()
-                .fill(Color(red: 0.25, green: 0.61, blue: 0.97).opacity(0.10))
+                .fill(Color(red: 0.25, green: 0.61, blue: 0.97).opacity(usesDarkAppearance ? 0.14 : 0.10))
                 .frame(width: 220, height: 220)
                 .offset(x: -120, y: 170)
         }
@@ -206,27 +223,124 @@ struct BrinkWidgetView: View {
         .padding(18)
     }
 
-    private func boardWidget(limit: Int) -> some View {
+    private func boardWidget(limit: Int, compact: Bool, showsHeader: Bool) -> some View {
         let tasks = Array(entry.tasks.prefix(limit))
         let heroTask = tasks.first
         let rows = Array(tasks.dropFirst())
 
-        return VStack(alignment: .leading, spacing: 14) {
-            header
-
-            if let heroTask {
-                heroCard(for: heroTask)
+        return VStack(alignment: .leading, spacing: compact ? 8 : 14) {
+            if showsHeader {
+                header
+            } else {
+                compactTopBar
             }
 
-            VStack(spacing: 10) {
+            if let heroTask {
+                heroCard(for: heroTask, compact: compact)
+            }
+
+            VStack(spacing: compact ? 7 : 10) {
                 ForEach(rows) { task in
-                    taskRow(for: task)
+                    taskRow(for: task, compact: compact)
                 }
             }
 
             Spacer(minLength: 0)
         }
-        .padding(18)
+        .padding(compact ? 14 : 18)
+    }
+
+    private func listWidget(limit: Int) -> some View {
+        let tasks = Array(entry.tasks.prefix(limit))
+
+        return VStack(alignment: .leading, spacing: 8) {
+            compactTopBar
+
+            ForEach(tasks) { task in
+                taskRow(for: task, compact: true)
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(14)
+    }
+
+    private func accentedWidget(limit: Int) -> some View {
+        let tasks = Array(entry.tasks.prefix(limit))
+
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Brink")
+                    .font(.system(size: 16, weight: .black, design: .rounded))
+                    .widgetAccentable()
+
+                Spacer(minLength: 8)
+
+                Text("\(entry.tasks.count)")
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .widgetAccentable()
+            }
+
+            ForEach(tasks) { task in
+                HStack(spacing: 10) {
+                    Capsule()
+                        .fill(Color.white.opacity(0.28))
+                        .frame(width: 34, height: 5)
+                        .overlay(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.white)
+                                .frame(width: max(34 * riskBarFill(for: task, now: entry.date), 10), height: 5)
+                        }
+                        .widgetAccentable()
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(task.title)
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .lineLimit(1)
+                            .widgetAccentable()
+
+                        Text(relativeDueDescription(for: task, now: entry.date))
+                            .font(.system(size: 10, weight: .medium, design: .rounded))
+                            .lineLimit(1)
+                    }
+
+                    Spacer(minLength: 6)
+
+                    Text(relativeDueBadgeText(for: task, now: entry.date))
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .lineLimit(1)
+                        .widgetAccentable()
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
+                .background(Color.white.opacity(0.10), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(14)
+        .foregroundStyle(Color.white)
+    }
+
+    private var compactTopBar: some View {
+        HStack(spacing: 8) {
+            Text("Brink")
+                .font(.system(size: 16, weight: .black, design: .rounded))
+                .foregroundStyle(ink)
+
+            Spacer(minLength: 8)
+
+            Text("\(entry.tasks.count) active")
+                .font(.system(size: 10, weight: .bold, design: .rounded))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(panelFill.opacity(0.92), in: Capsule())
+                .overlay(
+                    Capsule()
+                        .stroke(panelStroke, lineWidth: 1)
+                )
+                .foregroundStyle(ink.opacity(0.82))
+        }
     }
 
     private var header: some View {
@@ -249,134 +363,210 @@ struct BrinkWidgetView: View {
                 .font(.system(size: 12, weight: .bold, design: .rounded))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 7)
-                .background(Color.white.opacity(0.7), in: Capsule())
+                .background(panelFill.opacity(0.92), in: Capsule())
                 .overlay(
                     Capsule()
-                        .stroke(Color.white.opacity(0.85), lineWidth: 1)
+                        .stroke(panelStroke, lineWidth: 1)
                 )
                 .foregroundStyle(ink.opacity(0.8))
         }
     }
 
-    private func heroCard(for task: TaskItem) -> some View {
+    private func heroCard(for task: TaskItem, compact: Bool) -> some View {
         let color = urgencyColor(for: task, now: entry.date)
 
-        return VStack(alignment: .leading, spacing: 14) {
+        return VStack(alignment: .leading, spacing: compact ? 8 : 14) {
             HStack(alignment: .firstTextBaseline) {
                 Text("Most urgent")
-                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                    .font(.system(size: compact ? 10 : 11, weight: .bold, design: .rounded))
                     .textCase(.uppercase)
                     .tracking(0.8)
-                    .foregroundStyle(Color.white.opacity(0.82))
+                    .foregroundStyle(heroPrimaryText.opacity(0.78))
 
                 Spacer()
 
                 Text(riskLabel(for: task, now: entry.date))
-                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                    .font(.system(size: compact ? 10 : 11, weight: .bold, design: .rounded))
                     .padding(.horizontal, 8)
-                    .padding(.vertical, 5)
-                    .background(Color.white.opacity(0.14), in: Capsule())
-                    .foregroundStyle(Color.white)
+                    .padding(.vertical, compact ? 4 : 5)
+                    .background(heroCapsuleFill, in: Capsule())
+                    .foregroundStyle(heroPrimaryText)
             }
 
             Text(task.title)
-                .font(.system(size: 24, weight: .black, design: .rounded))
-                .lineLimit(2)
-                .foregroundStyle(Color.white)
+                .font(.system(size: compact ? 15 : 24, weight: .black, design: .rounded))
+                .lineLimit(compact ? 1 : 2)
+                .minimumScaleFactor(compact ? 0.72 : 0.9)
+                .foregroundStyle(heroPrimaryText)
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: compact ? 6 : 8) {
                 HStack {
                     Text(relativeDueBadgeText(for: task, now: entry.date))
-                        .font(.system(size: 14, weight: .heavy, design: .rounded))
-                        .foregroundStyle(Color.white)
+                        .font(.system(size: compact ? 10 : 14, weight: .heavy, design: .rounded))
+                        .foregroundStyle(heroPrimaryText)
 
                     Spacer(minLength: 8)
 
                     Text(relativeDueDescription(for: task, now: entry.date))
-                        .font(.system(size: 12, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color.white.opacity(0.9))
+                        .font(.system(size: compact ? 10 : 12, weight: .bold, design: .rounded))
+                        .foregroundStyle(heroSecondaryText)
                         .lineLimit(1)
                 }
 
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
                         Capsule()
-                            .fill(Color.white.opacity(0.16))
+                            .fill(heroTrackFill)
                         Capsule()
-                            .fill(Color.white.opacity(0.92))
+                            .fill(heroProgressFill)
                             .frame(width: max(geometry.size.width * riskBarFill(for: task, now: entry.date), 28))
                     }
                 }
-                .frame(height: 8)
+                .frame(height: compact ? 6 : 8)
             }
         }
-        .padding(16)
+        .padding(compact ? 10 : 16)
         .background(
             LinearGradient(
                 colors: [
-                    color.mix(with: Color.black, by: 0.08),
-                    color.mix(with: Color.black, by: 0.22),
+                    color.mix(with: heroShadowMixColor, by: usesDarkAppearance ? 0.24 : 0.08),
+                    color.mix(with: heroShadowMixColor, by: usesDarkAppearance ? 0.42 : 0.22),
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             ),
-            in: RoundedRectangle(cornerRadius: 24, style: .continuous)
+            in: RoundedRectangle(cornerRadius: compact ? 24 : 28, style: .continuous)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .stroke(Color.white.opacity(0.12), lineWidth: 1)
+            RoundedRectangle(cornerRadius: compact ? 24 : 28, style: .continuous)
+                .stroke(heroStroke, lineWidth: 1)
         )
     }
 
-    private func taskRow(for task: TaskItem) -> some View {
+    private func taskRow(for task: TaskItem, compact: Bool) -> some View {
         let color = urgencyColor(for: task, now: entry.date)
 
-        return HStack(alignment: .center, spacing: 12) {
+        return HStack(alignment: .center, spacing: compact ? 10 : 12) {
             ZStack(alignment: .leading) {
                 Capsule()
                     .fill(color.opacity(0.14))
-                    .frame(width: 72, height: 8)
+                    .frame(width: compact ? 56 : 72, height: compact ? 6 : 8)
 
                 Capsule()
                     .fill(color)
-                    .frame(width: max(72 * riskBarFill(for: task, now: entry.date), 12), height: 8)
+                    .frame(width: max((compact ? 56 : 72) * riskBarFill(for: task, now: entry.date), 12), height: compact ? 6 : 8)
             }
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(task.title)
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .font(.system(size: compact ? 13 : 16, weight: .bold, design: .rounded))
                     .foregroundStyle(ink)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.75)
 
                 Text(relativeDueDescription(for: task, now: entry.date))
-                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .font(.system(size: compact ? 10 : 12, weight: .medium, design: .rounded))
                     .foregroundStyle(mutedInk)
                     .lineLimit(1)
-            }
+                }
 
             Spacer(minLength: 8)
 
             Text(relativeDueBadgeText(for: task, now: entry.date))
-                .font(.system(size: 13, weight: .heavy, design: .rounded))
+                .font(.system(size: compact ? 10 : 13, weight: .heavy, design: .rounded))
                 .foregroundStyle(color)
                 .lineLimit(1)
-                .minimumScaleFactor(0.8)
+                .minimumScaleFactor(0.72)
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 11)
-        .background(Color.white.opacity(0.68), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .padding(.horizontal, compact ? 10 : 12)
+        .padding(.vertical, compact ? 7 : 11)
+        .background(panelFill, in: RoundedRectangle(cornerRadius: compact ? 18 : 22, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(Color.white.opacity(0.78), lineWidth: 1)
+            RoundedRectangle(cornerRadius: compact ? 18 : 22, style: .continuous)
+                .stroke(panelStroke, lineWidth: 1)
         )
     }
 
     private var ink: Color {
-        Color(red: 0.09, green: 0.11, blue: 0.16)
+        usesDarkAppearance
+            ? Color(red: 0.95, green: 0.96, blue: 0.98)
+            : Color(red: 0.09, green: 0.11, blue: 0.16)
     }
 
     private var mutedInk: Color {
-        Color(red: 0.35, green: 0.38, blue: 0.44)
+        usesDarkAppearance
+            ? Color(red: 0.69, green: 0.73, blue: 0.79)
+            : Color(red: 0.35, green: 0.38, blue: 0.44)
+    }
+
+    private var backgroundTop: Color {
+        usesDarkAppearance
+            ? Color(red: 0.10, green: 0.11, blue: 0.15)
+            : Color(red: 0.93, green: 0.96, blue: 0.99)
+    }
+
+    private var backgroundMiddle: Color {
+        usesDarkAppearance
+            ? Color(red: 0.13, green: 0.14, blue: 0.18)
+            : Color(red: 0.99, green: 0.98, blue: 0.97)
+    }
+
+    private var backgroundBottom: Color {
+        usesDarkAppearance
+            ? Color(red: 0.07, green: 0.08, blue: 0.11)
+            : Color.white
+    }
+
+    private var panelFill: Color {
+        usesDarkAppearance
+            ? Color(red: 0.14, green: 0.16, blue: 0.20).opacity(0.92)
+            : Color.white.opacity(0.68)
+    }
+
+    private var panelStroke: Color {
+        usesDarkAppearance
+            ? Color(red: 0.29, green: 0.33, blue: 0.40).opacity(0.82)
+            : Color.white.opacity(0.78)
+    }
+
+    private var heroShadowMixColor: Color {
+        Color.black
+    }
+
+    private var heroPrimaryText: Color {
+        usesDarkAppearance
+            ? Color(red: 0.97, green: 0.98, blue: 0.99)
+            : .white
+    }
+
+    private var heroSecondaryText: Color {
+        usesDarkAppearance
+            ? Color(red: 0.87, green: 0.90, blue: 0.95)
+            : Color.white.opacity(0.9)
+    }
+
+    private var heroCapsuleFill: Color {
+        usesDarkAppearance
+            ? Color.black.opacity(0.22)
+            : Color.white.opacity(0.14)
+    }
+
+    private var heroTrackFill: Color {
+        usesDarkAppearance
+            ? Color.black.opacity(0.24)
+            : Color.white.opacity(0.16)
+    }
+
+    private var heroProgressFill: Color {
+        usesDarkAppearance
+            ? Color.white.opacity(0.88)
+            : Color.white.opacity(0.92)
+    }
+
+    private var heroStroke: Color {
+        usesDarkAppearance
+            ? Color.white.opacity(0.08)
+            : Color.white.opacity(0.12)
     }
 
     private func urgencyColor(for task: TaskItem, now: Date) -> Color {
@@ -521,6 +711,7 @@ struct BrinkWidget: Widget {
         .configurationDisplayName("Brink Deadlines")
         .description("Keep the most urgent deadlines visible on your desktop.")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        .contentMarginsDisabled()
     }
 }
 

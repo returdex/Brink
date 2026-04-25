@@ -29,6 +29,7 @@
 		A56A834A226ADB786F6296E4 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706697C848B1578558AE7C7D /* TaskStore.swift */; };
 		AF01006C7569F2A49E3F3351 /* TaskFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4DD3A7AC467D40B026F06 /* TaskFileStore.swift */; };
 		C6EFBFC88F81DB76F57431E5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE538A231AA1C7A95AA402E3 /* Localizable.strings */; };
+		D099C24F7CD8C730964882E2 /* BrinkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A1A246926E33073553080 /* BrinkTheme.swift */; };
 		FEAC07715916212374F23E94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1363D9A8FC090CAD4393FD5A /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		9198B1943F63FC562910708A /* TaskTransferDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTransferDocument.swift; sourceTree = "<group>"; };
 		A2EE76EA750B9D57E34A655F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C64DA37A7D8365360411DE02 /* BrinkWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BrinkWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20A1A246926E33073553080 /* BrinkTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrinkTheme.swift; sourceTree = "<group>"; };
 		D2B2D416ACF69C5F57C71D3B /* TaskEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditorView.swift; sourceTree = "<group>"; };
 		D3A08AEF071D8DF7033277EE /* TaskBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBoardView.swift; sourceTree = "<group>"; };
 		D4828AFE1F1F16956856D1A9 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 		8E094BAED105D857B31C0D64 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D20A1A246926E33073553080 /* BrinkTheme.swift */,
 				F61F7B8637B5DDEAFA91D7BB /* CompactRiskCard.swift */,
 				1F515964256695A6C680C4C9 /* ContentView.swift */,
 				87EAFDB44F38CE804FADD50C /* MenuBarContentView.swift */,
@@ -298,6 +301,7 @@
 			files = (
 				3204707CB6D1AFF71C66CCF4 /* BrinkApp.swift in Sources */,
 				24D70F5FEB5F0415772AF7C7 /* BrinkShared.swift in Sources */,
+				D099C24F7CD8C730964882E2 /* BrinkTheme.swift in Sources */,
 				505B4A270CABABD809F1C13B /* CompactRiskCard.swift in Sources */,
 				499329C7D5EC7427B6638174 /* ContentView.swift in Sources */,
 				8101898A6F04DEEF66C37A45 /* Localization.swift in Sources */,
@@ -395,7 +399,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 939Q2D35JB;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -506,7 +510,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 939Q2D35JB;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;

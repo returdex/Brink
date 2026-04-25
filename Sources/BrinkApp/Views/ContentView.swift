@@ -162,8 +162,8 @@ struct ContentView: View {
         .background(
             LinearGradient(
                 colors: [
-                    Color(red: 0.95, green: 0.97, blue: 0.99),
-                    Color.white,
+                    BrinkTheme.canvasTop,
+                    BrinkTheme.canvasBottom,
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -237,6 +237,6 @@ private struct SidebarTaskRow: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
         .background(selectedTaskID == task.id ? Color.accentColor.opacity(0.12) : Color.clear)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }

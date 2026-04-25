@@ -5,7 +5,7 @@ enum BrinkShared {
         "group.brink",
         "group.com.yifeng.brink",
     ]
-    static let widgetKind = "BrinkWidget"
+    static let widgetKind = "BrinkWidgetV2"
     static let sharedDirectoryName = "Brink"
     static let tasksFilename = "tasks.json"
 }
