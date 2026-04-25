@@ -8,22 +8,53 @@
 
 /* Begin PBXBuildFile section */
 		10501F0EA58C072298205458 /* TaskBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A08AEF071D8DF7033277EE /* TaskBoardView.swift */; };
+		24D70F5FEB5F0415772AF7C7 /* BrinkShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED56895B6BC536E4BDDA9FE6 /* BrinkShared.swift */; };
 		2C763CE0478AF1F51EDDC53B /* TaskTransferDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9198B1943F63FC562910708A /* TaskTransferDocument.swift */; };
+		2DCD8EA03245A20B67F93751 /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4828AFE1F1F16956856D1A9 /* TaskItem.swift */; };
 		3204707CB6D1AFF71C66CCF4 /* BrinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325016EB1CF03F90C938786C /* BrinkApp.swift */; };
 		33FCAAE20DCC8E46F8EA1FC4 /* TaskNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DCF526248C73871D1DC06 /* TaskNotificationScheduler.swift */; };
 		3CB7C278EB352E1E66F7BB59 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EAFDB44F38CE804FADD50C /* MenuBarContentView.swift */; };
+		3DB6BB4C4FFD3A66F2974B9C /* BrinkWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C64DA37A7D8365360411DE02 /* BrinkWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		438AFF192EFEBE53D0C5EBA3 /* BrinkWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A072542850EA7413702115 /* BrinkWidget.swift */; };
 		499329C7D5EC7427B6638174 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F515964256695A6C680C4C9 /* ContentView.swift */; };
 		49AB6172899B545BEFE2707E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2EE76EA750B9D57E34A655F /* Preview Assets.xcassets */; };
 		505B4A270CABABD809F1C13B /* CompactRiskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61F7B8637B5DDEAFA91D7BB /* CompactRiskCard.swift */; };
+		50B5A76B19D0B86A2EDA3905 /* BrinkShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED56895B6BC536E4BDDA9FE6 /* BrinkShared.swift */; };
 		56C2FE122A437D952BBF73D4 /* TaskComposerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FEFBD2F51EF3D2E8C31132 /* TaskComposerView.swift */; };
 		60815F1D4D7305EC9946A369 /* TaskEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2D416ACF69C5F57C71D3B /* TaskEditorView.swift */; };
 		8101898A6F04DEEF66C37A45 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B23C18C8FE84B8D6C0890D5 /* Localization.swift */; };
 		825D07AD568C6FCFDC01EF46 /* Urgency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C11AC8CD3EF23D3D085C9B /* Urgency.swift */; };
-		9BE436EC4F5CF24136E1EF56 /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A045DB461DE36EFA9018DFE2 /* TaskItem.swift */; };
+		88AF0A935EE3ADFC811E6CFB /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4828AFE1F1F16956856D1A9 /* TaskItem.swift */; };
+		A19052FBB618CAB5860D7B7B /* TaskFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4DD3A7AC467D40B026F06 /* TaskFileStore.swift */; };
 		A56A834A226ADB786F6296E4 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706697C848B1578558AE7C7D /* TaskStore.swift */; };
+		AF01006C7569F2A49E3F3351 /* TaskFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4DD3A7AC467D40B026F06 /* TaskFileStore.swift */; };
 		C6EFBFC88F81DB76F57431E5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE538A231AA1C7A95AA402E3 /* Localizable.strings */; };
 		FEAC07715916212374F23E94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1363D9A8FC090CAD4393FD5A /* Assets.xcassets */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A409120631B6231F06FE37EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB8A3944C03029433DE89715 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9B31C406501A0092279AFF9A;
+			remoteInfo = BrinkWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		53CC0D498C375B3752F0BFC7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3DB6BB4C4FFD3A66F2974B9C /* BrinkWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1363D9A8FC090CAD4393FD5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -31,17 +62,21 @@
 		2B23C18C8FE84B8D6C0890D5 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		325016EB1CF03F90C938786C /* BrinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrinkApp.swift; sourceTree = "<group>"; };
 		65C11AC8CD3EF23D3D085C9B /* Urgency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urgency.swift; sourceTree = "<group>"; };
+		6BD4DD3A7AC467D40B026F06 /* TaskFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskFileStore.swift; sourceTree = "<group>"; };
 		706697C848B1578558AE7C7D /* TaskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStore.swift; sourceTree = "<group>"; };
 		87EAFDB44F38CE804FADD50C /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
 		88FEFBD2F51EF3D2E8C31132 /* TaskComposerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskComposerView.swift; sourceTree = "<group>"; };
 		9198B1943F63FC562910708A /* TaskTransferDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTransferDocument.swift; sourceTree = "<group>"; };
-		A045DB461DE36EFA9018DFE2 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
 		A2EE76EA750B9D57E34A655F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C64DA37A7D8365360411DE02 /* BrinkWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BrinkWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2B2D416ACF69C5F57C71D3B /* TaskEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditorView.swift; sourceTree = "<group>"; };
 		D3A08AEF071D8DF7033277EE /* TaskBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBoardView.swift; sourceTree = "<group>"; };
+		D4828AFE1F1F16956856D1A9 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
 		D5C6DE09CC2C82CC40B79132 /* Brink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brink.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7A072542850EA7413702115 /* BrinkWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrinkWidget.swift; sourceTree = "<group>"; };
 		EAA070E1DE1F4B2E9696C915 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EB2DCF526248C73871D1DC06 /* TaskNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNotificationScheduler.swift; sourceTree = "<group>"; };
+		ED56895B6BC536E4BDDA9FE6 /* BrinkShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrinkShared.swift; sourceTree = "<group>"; };
 		EEEB67DBADC56EBFEFD0E47B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F61F7B8637B5DDEAFA91D7BB /* CompactRiskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactRiskCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				41F5FE8AC81EE6C78CF733C0 /* BrinkApp */,
+				AB7BA3287E20A2D48188D497 /* BrinkWidget */,
+				BDAB0016280F65870532F7C4 /* Shared */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -111,11 +148,18 @@
 		A5EABD716518F7B24A002A88 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A045DB461DE36EFA9018DFE2 /* TaskItem.swift */,
 				9198B1943F63FC562910708A /* TaskTransferDocument.swift */,
 				65C11AC8CD3EF23D3D085C9B /* Urgency.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AB7BA3287E20A2D48188D497 /* BrinkWidget */ = {
+			isa = PBXGroup;
+			children = (
+				E7A072542850EA7413702115 /* BrinkWidget.swift */,
+			);
+			path = BrinkWidget;
 			sourceTree = "<group>";
 		};
 		ABD8D23D9CB5024ACFD0934E /* Services */ = {
@@ -130,8 +174,19 @@
 			isa = PBXGroup;
 			children = (
 				D5C6DE09CC2C82CC40B79132 /* Brink.app */,
+				C64DA37A7D8365360411DE02 /* BrinkWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BDAB0016280F65870532F7C4 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				ED56895B6BC536E4BDDA9FE6 /* BrinkShared.swift */,
+				6BD4DD3A7AC467D40B026F06 /* TaskFileStore.swift */,
+				D4828AFE1F1F16956856D1A9 /* TaskItem.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,10 +198,12 @@
 			buildPhases = (
 				FCBC88E4D4547C2E8CC8C102 /* Sources */,
 				81E1130BF88BEE5EDB29143B /* Resources */,
+				53CC0D498C375B3752F0BFC7 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E2E3567D28CF0113FD957369 /* PBXTargetDependency */,
 			);
 			name = Brink;
 			packageProductDependencies = (
@@ -154,6 +211,23 @@
 			productName = Brink;
 			productReference = D5C6DE09CC2C82CC40B79132 /* Brink.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9B31C406501A0092279AFF9A /* BrinkWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 971B6BCE8E1E9097AE58FB28 /* Build configuration list for PBXNativeTarget "BrinkWidget" */;
+			buildPhases = (
+				36046FFEF972F89FC6900168 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BrinkWidget;
+			packageProductDependencies = (
+			);
+			productName = BrinkWidget;
+			productReference = C64DA37A7D8365360411DE02 /* BrinkWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -165,7 +239,9 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					6E9954C3B141C1D2AF2EC0B4 = {
-						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					9B31C406501A0092279AFF9A = {
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -186,6 +262,7 @@
 			projectRoot = "";
 			targets = (
 				6E9954C3B141C1D2AF2EC0B4 /* Brink */,
+				9B31C406501A0092279AFF9A /* BrinkWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -204,11 +281,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		36046FFEF972F89FC6900168 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50B5A76B19D0B86A2EDA3905 /* BrinkShared.swift in Sources */,
+				438AFF192EFEBE53D0C5EBA3 /* BrinkWidget.swift in Sources */,
+				A19052FBB618CAB5860D7B7B /* TaskFileStore.swift in Sources */,
+				88AF0A935EE3ADFC811E6CFB /* TaskItem.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FCBC88E4D4547C2E8CC8C102 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				3204707CB6D1AFF71C66CCF4 /* BrinkApp.swift in Sources */,
+				24D70F5FEB5F0415772AF7C7 /* BrinkShared.swift in Sources */,
 				505B4A270CABABD809F1C13B /* CompactRiskCard.swift in Sources */,
 				499329C7D5EC7427B6638174 /* ContentView.swift in Sources */,
 				8101898A6F04DEEF66C37A45 /* Localization.swift in Sources */,
@@ -216,7 +305,8 @@
 				10501F0EA58C072298205458 /* TaskBoardView.swift in Sources */,
 				56C2FE122A437D952BBF73D4 /* TaskComposerView.swift in Sources */,
 				60815F1D4D7305EC9946A369 /* TaskEditorView.swift in Sources */,
-				9BE436EC4F5CF24136E1EF56 /* TaskItem.swift in Sources */,
+				AF01006C7569F2A49E3F3351 /* TaskFileStore.swift in Sources */,
+				2DCD8EA03245A20B67F93751 /* TaskItem.swift in Sources */,
 				33FCAAE20DCC8E46F8EA1FC4 /* TaskNotificationScheduler.swift in Sources */,
 				A56A834A226ADB786F6296E4 /* TaskStore.swift in Sources */,
 				2C763CE0478AF1F51EDDC53B /* TaskTransferDocument.swift in Sources */,
@@ -225,6 +315,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E2E3567D28CF0113FD957369 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9B31C406501A0092279AFF9A /* BrinkWidget */;
+			targetProxy = A409120631B6231F06FE37EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BE538A231AA1C7A95AA402E3 /* Localizable.strings */ = {
@@ -243,7 +341,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Resources/Brink/Brink.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/BrinkApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -291,6 +393,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -310,6 +413,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Brink";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yifeng.brink;
@@ -318,6 +422,49 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		87C68E0C24BF187201F14649 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/BrinkWidget/BrinkWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = H9CCNY9WVZ;
+				INFOPLIST_FILE = Resources/BrinkWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yifeng.brink.widget;
+				PRODUCT_MODULE_NAME = BrinkWidget;
+				PRODUCT_NAME = BrinkWidget;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C774E393DA2F6AB83C1A0EA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/BrinkWidget/BrinkWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Resources/BrinkWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yifeng.brink.widget;
+				PRODUCT_MODULE_NAME = BrinkWidget;
+				PRODUCT_NAME = BrinkWidget;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -357,6 +504,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -382,6 +530,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Brink";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -398,7 +547,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Resources/Brink/Brink.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = H9CCNY9WVZ;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/BrinkApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -427,6 +581,15 @@
 			buildConfigurations = (
 				F12333A8810DF8DDC3643D15 /* Debug */,
 				8531923ABB5DA356D1D81FA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		971B6BCE8E1E9097AE58FB28 /* Build configuration list for PBXNativeTarget "BrinkWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87C68E0C24BF187201F14649 /* Debug */,
+				C774E393DA2F6AB83C1A0EA1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

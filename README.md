@@ -102,7 +102,7 @@ Brink 不是：
 
 - 可折叠树形视图
 - 更稳健的通知策略
-- Widget 实装
+- Widget 视觉与交互细化
 - `SQLite + GRDB` 持久化替换
 - Apple Reminders 集成
 
@@ -141,7 +141,14 @@ xcodebuild -project Brink.xcodeproj -scheme Brink -configuration Debug -destinat
 
 本地数据位置：
 
-- `~/Library/Application Support/Brink/tasks.json`
+- 默认回退路径：`~/Library/Application Support/Brink/tasks.json`
+- 启用同一 `App Group` 后：共享容器中的 `Brink/tasks.json`，供主 App 与 Widget 共读
+
+Widget 开发说明：
+
+- Widget 与主 App 通过同一个 `App Group` 共享 `Brink/tasks.json`
+- 当前项目使用的共享组为 `group.brink`
+- 如果你在新机器上运行，请在 Xcode 里为 `Brink` 与 `BrinkWidget` 两个 target 选择同一个 Team，并确认两个 target 都启用了相同的 `App Group`
 
 ### 文档导航
 
@@ -313,7 +320,7 @@ Still in progress:
 
 - collapsible tree UI
 - more robust notification policy
-- Widget implementation
+- Widget visual and interaction polish
 - migration from JSON storage to `SQLite + GRDB`
 - Apple Reminders integration
 
@@ -352,7 +359,14 @@ Localization resources:
 
 Local data path:
 
-- `~/Library/Application Support/Brink/tasks.json`
+- fallback path: `~/Library/Application Support/Brink/tasks.json`
+- when the same `App Group` is enabled: shared `Brink/tasks.json` in the group container for the app and widget
+
+Widget development notes:
+
+- the app and widget share `Brink/tasks.json` through one `App Group`
+- the current shared group is `group.brink`
+- on a new machine, choose the same Team for `Brink` and `BrinkWidget` in Xcode and make sure the same `App Group` capability is enabled on both targets
 
 ### Docs
 
