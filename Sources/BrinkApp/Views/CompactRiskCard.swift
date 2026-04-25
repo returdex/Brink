@@ -47,13 +47,6 @@ struct CompactRiskCard: View {
             Spacer()
         }
         .padding(24)
-        .background(
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(.ultraThinMaterial)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .stroke(Color.black.opacity(0.06), lineWidth: 1)
-        )
+        .brinkPanel(cornerRadius: 32, elevated: true)
     }
 }

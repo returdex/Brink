@@ -63,15 +63,15 @@ struct TaskSummaryRow: View {
                         .foregroundStyle(snapshot.level.tint)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
-                        .background(snapshot.level.tint.opacity(0.12))
+                        .background(snapshot.level.tint.opacity(0.14))
                         .clipShape(Capsule())
                 }
 
                 GeometryReader { proxy in
                     ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color.black.opacity(0.06))
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(BrinkTheme.subtleFill)
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(snapshot.level.tint)
                             .frame(width: proxy.size.width * snapshot.ratio)
                     }
@@ -100,12 +100,12 @@ struct TaskSummaryRow: View {
         }
         .buttonStyle(.plain)
         .padding(18)
-        .background(isSelected ? Color.accentColor.opacity(0.12) : .white.opacity(0.85))
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .background(isSelected ? Color.accentColor.opacity(0.16) : BrinkTheme.elevatedPanelFill)
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .stroke(isSelected ? Color.accentColor.opacity(0.35) : Color.black.opacity(0.05), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .stroke(isSelected ? Color.accentColor.opacity(0.40) : BrinkTheme.stroke, lineWidth: 1)
         )
-        .shadow(color: .black.opacity(0.04), radius: 18, y: 8)
+        .shadow(color: BrinkTheme.shadow, radius: 20, y: 10)
     }
 }

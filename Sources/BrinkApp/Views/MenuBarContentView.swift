@@ -20,10 +20,8 @@ struct MenuBarContentView: View {
                 }
                 .padding(14)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(snapshot.level.tint.opacity(0.12))
-                )
+                .background(snapshot.level.tint.opacity(0.14))
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             }
 
             Divider()

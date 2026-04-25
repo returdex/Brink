@@ -16,7 +16,16 @@ struct TaskEditorView: View {
             }
         }
         .padding(24)
-        .background(Color.white.opacity(0.7))
+        .background(
+            LinearGradient(
+                colors: [
+                    BrinkTheme.canvasTop.opacity(0.78),
+                    BrinkTheme.canvasBottom.opacity(0.92),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 
     private func editor(for task: TaskItem) -> some View {
@@ -83,6 +92,9 @@ struct TaskEditorView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .padding(18)
+        .brinkPanel(cornerRadius: 30)
     }
 
     private func binding<Value>(
