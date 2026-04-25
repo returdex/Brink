@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import WidgetKit
 
 struct AppAlert: Identifiable, Equatable {
     let id = UUID()
@@ -21,55 +22,6 @@ struct TaskDraft: Equatable {
 
     var normalizedDueDate: Date? {
         hasDueDate ? dueDate : nil
-    }
-}
-
-struct TaskSnapshot: Codable {
-    var rootTasks: [TaskItem]
-}
-
-struct TaskFileStore {
-    let fileURL: URL
-    private let encoder: JSONEncoder
-    private let decoder: JSONDecoder
-
-    init(fileURL: URL) {
-        self.fileURL = fileURL
-
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        encoder.dateEncodingStrategy = .iso8601
-        self.encoder = encoder
-
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        self.decoder = decoder
-    }
-
-    static func live() throws -> TaskFileStore {
-        let supportDirectory = try FileManager.default.url(
-            for: .applicationSupportDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true
-        )
-        let appDirectory = supportDirectory.appendingPathComponent("Brink", isDirectory: true)
-        try FileManager.default.createDirectory(at: appDirectory, withIntermediateDirectories: true)
-        return TaskFileStore(fileURL: appDirectory.appendingPathComponent("tasks.json"))
-    }
-
-    func load() throws -> [TaskItem] {
-        guard FileManager.default.fileExists(atPath: fileURL.path()) else {
-            return []
-        }
-
-        let data = try Data(contentsOf: fileURL)
-        return try decoder.decode(TaskSnapshot.self, from: data).rootTasks
-    }
-
-    func save(_ rootTasks: [TaskItem]) throws {
-        let data = try encoder.encode(TaskSnapshot(rootTasks: rootTasks))
-        try data.write(to: fileURL, options: [.atomic])
     }
 }
 
@@ -254,6 +206,7 @@ final class TaskStore {
         hasBootstrappedNotifications = true
         requestNotificationAuthorization()
         rescheduleNotifications()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func exportDocument(format: TaskTransferFormat) -> TaskTransferDocument {
@@ -315,6 +268,7 @@ final class TaskStore {
         do {
             try fileStore.save(rootTasks)
             rescheduleNotifications()
+            WidgetCenter.shared.reloadTimelines(ofKind: BrinkShared.widgetKind)
         } catch {
             print("Brink failed to save tasks: \(error)")
         }
