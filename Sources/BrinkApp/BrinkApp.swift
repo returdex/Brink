@@ -46,6 +46,7 @@ struct BrinkApp: App {
             ContentView(store: store)
                 .frame(minWidth: 920, minHeight: 620)
         }
+        .handlesExternalEvents(matching: ["tasks"])
 
         MenuBarExtra("Brink", systemImage: "hourglass.bottomhalf.filled") {
             MenuBarContentView(store: store)
